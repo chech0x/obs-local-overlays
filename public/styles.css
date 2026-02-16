@@ -68,18 +68,31 @@ body {
 }
 
 .link-row {
-  display: grid;
-  grid-template-columns: 1fr 42px;
-  gap: 8px;
+  position: relative;
+  display: flex;
+  gap: 0;
   align-items: center;
 }
 
+.link-row input {
+  flex: 1;
+  min-width: 0;
+  padding-right: 54px;
+}
+
 .copy-btn {
-  position: relative;
-  width: 42px;
-  height: 42px;
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  flex: 0 0 34px;
+  padding: 0;
+  width: 34px;
+  height: 34px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   background: #202636;
   color: #ffd7eb;
   cursor: pointer;
@@ -93,8 +106,10 @@ body {
 }
 
 .copy-btn svg {
-  width: 20px;
-  height: 20px;
+  display: block;
+  width: 17px;
+  height: 17px;
+  pointer-events: none;
 }
 
 .copy-btn::after {
@@ -141,6 +156,48 @@ textarea {
 
 .font-controls {
   margin-top: 12px;
+}
+
+.counter-controls {
+  margin-top: 14px;
+}
+
+.counter-size-row {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+#counter-size-value {
+  min-width: 54px;
+  text-align: right;
+  color: #ffd2ea;
+  font-weight: 700;
+}
+
+.counter-row {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.counter-btn {
+  border: 1px solid #4a5162;
+  border-radius: 10px;
+  background: #222938;
+  color: #fff;
+  font-weight: 800;
+  height: 38px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.counter-btn-reset {
+  border-color: #7d4464;
+  color: #ffd8ea;
 }
 
 .font-row {
@@ -222,6 +279,30 @@ textarea {
   animation: neonPulse 1.4s linear infinite;
 }
 
+.counter-box {
+  position: absolute;
+  right: 28px;
+  bottom: 22px;
+  min-width: 132px;
+  border-radius: 12px;
+  padding: 10px 16px;
+  background: rgba(0, 0, 0, 0.88);
+  border: 2px solid #ff6dc2;
+  box-shadow:
+    0 0 8px rgba(255, 34, 158, 0.65),
+    0 0 20px rgba(255, 34, 158, 0.52);
+  text-align: center;
+}
+
+#counter-text {
+  font-size: 96px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
 #overlay-text {
   font-size: 68px;
   line-height: 1.1;
@@ -280,6 +361,15 @@ textarea {
     grid-template-columns: 48px 1fr 48px;
   }
 
+  .counter-size-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  #counter-size-value {
+    text-align: left;
+  }
+
   #font-size-value {
     grid-column: 1 / -1;
     text-align: left;
@@ -287,5 +377,16 @@ textarea {
 
   #overlay-text {
     font-size: 34px;
+  }
+
+  .counter-box {
+    right: 14px;
+    bottom: 14px;
+    min-width: 108px;
+    padding: 8px 12px;
+  }
+
+  #counter-text {
+    font-size: 30px;
   }
 }

@@ -13,6 +13,11 @@ const fontSizeInput = document.getElementById("font-size");
 const fontSizeValue = document.getElementById("font-size-value");
 const fontDownButton = document.getElementById("font-down");
 const fontUpButton = document.getElementById("font-up");
+const counterOnButton = document.getElementById("counter-on");
+const counterOffButton = document.getElementById("counter-off");
+const counterResetButton = document.getElementById("counter-reset");
+const counterSizeInput = document.getElementById("counter-size");
+const counterSizeValue = document.getElementById("counter-size-value");
 const passView = document.getElementById("pass-view");
 passView.textContent = pass;
 
@@ -28,6 +33,22 @@ function getFontSize() {
 
 function renderFontSizeLabel() {
   fontSizeValue.textContent = `${getFontSize()} px`;
+}
+
+function getCounterSize() {
+  const parsed = Number.parseInt(counterSizeInput.value, 10);
+  if (!Number.isFinite(parsed)) {
+    return 96;
+  }
+  return Math.min(320, Math.max(24, parsed));
+}
+
+function renderCounterSizeLabel() {
+  counterSizeValue.textContent = `${getCounterSize()} px`;
+}
+
+function sendCounterSize() {
+  socket.emit("counter-size", { fontSize: getCounterSize() });
 }
 
 function sendShow(position) {
@@ -97,4 +118,23 @@ fontSizeInput.addEventListener("input", () => {
 fontDownButton.addEventListener("click", () => adjustFont(-2));
 fontUpButton.addEventListener("click", () => adjustFont(2));
 
+counterOnButton.addEventListener("click", () => {
+  socket.emit("counter-toggle", { running: true });
+});
+
+counterOffButton.addEventListener("click", () => {
+  socket.emit("counter-toggle", { running: false });
+});
+
+counterResetButton.addEventListener("click", () => {
+  socket.emit("counter-reset");
+});
+
+counterSizeInput.addEventListener("input", () => {
+  renderCounterSizeLabel();
+  sendCounterSize();
+});
+
 renderFontSizeLabel();
+renderCounterSizeLabel();
+sendCounterSize();

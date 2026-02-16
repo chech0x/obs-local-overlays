@@ -26,6 +26,19 @@
               <output id="font-size-value" for="font-size">68 px</output>
             </div>
           </div>
+          <div class="counter-controls">
+            <label>Contador (overlay esquina inferior derecha)</label>
+            <div class="counter-size-row">
+              <label for="counter-size">Tamaño</label>
+              <input id="counter-size" type="range" min="24" max="320" step="1" value="96" />
+              <output id="counter-size-value" for="counter-size">96 px</output>
+            </div>
+            <div class="counter-row">
+              <button id="counter-on" class="counter-btn" type="button">Encender</button>
+              <button id="counter-off" class="counter-btn" type="button">Apagar</button>
+              <button id="counter-reset" class="counter-btn counter-btn-reset" type="button">Reset 00:00</button>
+            </div>
+          </div>
           <p class="muted">
             Hash:
             <code id="pass-view"></code>

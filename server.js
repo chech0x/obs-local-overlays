@@ -113,6 +113,38 @@ io.on("connection", (socket) => {
 
     io.to(pass).emit("overlay-hide");
   });
+
+  socket.on("counter-toggle", (payload) => {
+    const pass = socket.data.pass;
+    if (!pass || socket.data.role !== "controller") {
+      return;
+    }
+
+    io.to(pass).emit("counter-toggle", { running: Boolean(payload?.running) });
+  });
+
+  socket.on("counter-reset", () => {
+    const pass = socket.data.pass;
+    if (!pass || socket.data.role !== "controller") {
+      return;
+    }
+
+    io.to(pass).emit("counter-reset");
+  });
+
+  socket.on("counter-size", (payload) => {
+    const pass = socket.data.pass;
+    if (!pass || socket.data.role !== "controller") {
+      return;
+    }
+
+    const requestedFontSize = Number.parseInt(payload?.fontSize, 10);
+    const fontSize = Number.isFinite(requestedFontSize)
+      ? Math.min(320, Math.max(24, requestedFontSize))
+      : 96;
+
+    io.to(pass).emit("counter-size", { fontSize });
+  });
 });
 
 server.listen(PORT, BIND_HOST, () => {

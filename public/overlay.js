@@ -8,9 +8,10 @@ if (!pass) {
 const socket = io();
 socket.emit("join-room", { pass, role: "overlay" });
 
-const overlayRoot = document.getElementById("overlay-root");
 const overlayBox = document.getElementById("overlay-box");
 const overlayText = document.getElementById("overlay-text");
+const counterBox = document.getElementById("counter-box");
+const counterText = document.getElementById("counter-text");
 
 const positionClassByKey = {
   top: "pos-top",
@@ -23,15 +24,50 @@ function setPosition(position) {
   overlayBox.classList.add(positionClassByKey[position] || "pos-middle");
 }
 
-let isVisible = false;
+let isMessageVisible = false;
+let counterSeconds = 0;
+let counterInterval = null;
+
+function renderCounter() {
+  const minutes = String(Math.floor(counterSeconds / 60)).padStart(2, "0");
+  const seconds = String(counterSeconds % 60).padStart(2, "0");
+  counterText.textContent = `${minutes}:${seconds}`;
+}
+
+function setCounterFontSize(fontSize) {
+  const size = Number.isFinite(fontSize) ? Math.min(320, Math.max(24, fontSize)) : 96;
+  counterText.style.fontSize = `${size}px`;
+}
+
+function startCounter() {
+  counterBox.classList.remove("hidden");
+  if (counterInterval) {
+    return;
+  }
+
+  counterInterval = setInterval(() => {
+    counterSeconds += 1;
+    renderCounter();
+  }, 1000);
+}
+
+function stopCounter() {
+  if (counterInterval) {
+    clearInterval(counterInterval);
+    counterInterval = null;
+  }
+  counterBox.classList.add("hidden");
+}
+
+renderCounter();
 
 socket.on("overlay-show", ({ message, position, fontSize }) => {
   overlayText.textContent = message || " ";
   overlayText.style.fontSize = `${Number.isFinite(fontSize) ? fontSize : 68}px`;
   setPosition(position);
-  overlayRoot.classList.remove("hidden");
+  overlayBox.classList.remove("hidden");
 
-  if (!isVisible) {
+  if (!isMessageVisible) {
     gsap.fromTo(
       overlayBox,
       { y: 48, opacity: 0, scale: 0.94 },
@@ -39,11 +75,11 @@ socket.on("overlay-show", ({ message, position, fontSize }) => {
     );
   }
 
-  isVisible = true;
+  isMessageVisible = true;
 });
 
 socket.on("overlay-hide", () => {
-  if (!isVisible) {
+  if (!isMessageVisible) {
     return;
   }
 
@@ -53,10 +89,27 @@ socket.on("overlay-hide", () => {
     duration: 0.2,
     ease: "power2.in",
     onComplete: () => {
-      overlayRoot.classList.add("hidden");
-      gsap.set(overlayBox, { clearProps: "all" });
+      overlayBox.classList.add("hidden");
+      gsap.set(overlayBox, { clearProps: "opacity,transform" });
     },
   });
 
-  isVisible = false;
+  isMessageVisible = false;
+});
+
+socket.on("counter-toggle", ({ running }) => {
+  if (running) {
+    startCounter();
+    return;
+  }
+  stopCounter();
+});
+
+socket.on("counter-reset", () => {
+  counterSeconds = 0;
+  renderCounter();
+});
+
+socket.on("counter-size", ({ fontSize }) => {
+  setCounterFontSize(fontSize);
 });
