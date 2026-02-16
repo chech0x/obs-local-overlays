@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Controlador Overlay</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="controller-body">
+    <main class="controller-card">
+      <header>
+        <h1>Controlador</h1>
+        <p class="muted">Mantén presionado un botón para mostrar el mensaje.</p>
+      </header>
+
+      <section class="controller-layout">
+        <div class="input-pane">
+          <label for="message">Mensaje</label>
+          <textarea id="message" rows="4" placeholder="Escribe aquí el texto a mostrar..."></textarea>
+          <div class="font-controls">
+            <label for="font-size">Tamaño de letra</label>
+            <div class="font-row">
+              <button id="font-down" class="font-btn" type="button">A-</button>
+              <input id="font-size" type="range" min="36" max="160" step="2" value="68" />
+              <button id="font-up" class="font-btn" type="button">A+</button>
+              <output id="font-size-value" for="font-size">68 px</output>
+            </div>
+          </div>
+          <p class="muted">
+            Hash:
+            <code id="pass-view"></code>
+          </p>
+        </div>
+
+        <div class="buttons-pane">
+          <button type="button" data-position="top" class="hold-btn">Arriba</button>
+          <button type="button" data-position="middle" class="hold-btn">Centro</button>
+          <button type="button" data-position="bottom" class="hold-btn">Abajo</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/controller.js"></script>
+  </body>
+</html>

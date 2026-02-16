@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overlay Link Builder</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="portal-body">
+    <main class="portal-card">
+      <h1>Overlay + Controlador</h1>
+      <p class="muted">Genera o usa un hash en <code>?pass=...</code> para crear tu sesión.</p>
+
+      <section id="no-pass" class="block">
+        <p>No se detectó hash de overlay.</p>
+        <button id="generate-btn" class="primary-btn" type="button">Generar hash</button>
+      </section>
+
+      <section id="with-pass" class="block hidden">
+        <p>
+          Hash activo:
+          <code id="pass-label"></code>
+        </p>
+        <div class="links">
+          <label>Enlace overlay</label>
+          <input id="overlay-link" readonly />
+          <label>Enlace controlador</label>
+          <input id="controller-link" readonly />
+        </div>
+      </section>
+    </main>
+
+    <script src="/index.js"></script>
+  </body>
+</html>
