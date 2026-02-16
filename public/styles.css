@@ -67,6 +67,60 @@ body {
   gap: 8px;
 }
 
+.link-row {
+  display: grid;
+  grid-template-columns: 1fr 42px;
+  gap: 8px;
+  align-items: center;
+}
+
+.copy-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #202636;
+  color: #ffd7eb;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.copy-btn:hover {
+  border-color: #ff86ca;
+  color: #fff;
+}
+
+.copy-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.copy-btn::after {
+  content: attr(data-tip);
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(14, 16, 22, 0.96);
+  border: 1px solid #ff86ca;
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  white-space: nowrap;
+}
+
+.copy-btn.show-tip::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 input,
 textarea {
   width: 100%;
